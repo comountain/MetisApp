@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
+import butterknife.ButterKnife;
+
 public abstract class BaseFragment extends Fragment{
     public FragmentActivity mActivity;
 
