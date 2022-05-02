@@ -1,27 +1,38 @@
 package com.example.activity.fragment;
 
-import android.util.Log;
+
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.activity.R;
 
 import com.example.activity.bean.QuestBean;
 import com.example.activity.utils.LogUtils;
-
-import butterknife.OnClick;
+import com.example.activity.service.FragmentCallBack;
 
 public class AnswerFragment extends BaseFragment {
+    public interface MyListener{
+        public void sendValue(String value);
+    }
+
+    Drawable drawable;
+    private MyListener myListener;
     private Button chooseA;
     private Button chooseB;
     private Button chooseC;
     private Button chooseD;
     private TextView tv_title;
     private String myanswer = "";
-    QuestBean questBean = null;
+    volatile QuestBean questBean = null;
+    FragmentCallBack mfragmentCallBack;
 
     public AnswerFragment(QuestBean questBean)
     {
@@ -52,7 +63,7 @@ public class AnswerFragment extends BaseFragment {
                 check(view);
             }
         });
-        chooseD.setOnClickListener(new View.OnClickListener() {
+        chooseC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 check(view);
@@ -67,22 +78,43 @@ public class AnswerFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ///获取绑定的监听
+        if (context instanceof FragmentCallBack) {
+            mfragmentCallBack = (FragmentCallBack) context;
+        }
+    }
 
     public void check(View v)
     {
+        clearButton();
         switch (v.getId())
         {
             case R.id.chooseA:
+                drawable = getResources().getDrawable(R.drawable.shape_pressed);
+                chooseA.setBackground(drawable);
                 questBean.setMyanswer("A");
+                mfragmentCallBack.sendAnswer("A");
                 break;
             case R.id.chooseB:
+                drawable = getResources().getDrawable(R.drawable.shape_pressed);
+                chooseB.setBackground(drawable);
                 questBean.setMyanswer("B");
+                mfragmentCallBack.sendAnswer("B");
                 break;
             case R.id.chooseC:
+                drawable = getResources().getDrawable(R.drawable.shape_pressed);
+                chooseC.setBackground(drawable);
                 questBean.setMyanswer("C");
+                mfragmentCallBack.sendAnswer("C");
                 break;
             case R.id.chooseD:
+                drawable = getResources().getDrawable(R.drawable.shape_pressed);
+                chooseD.setBackground(drawable);
                 questBean.setMyanswer("D");
+                mfragmentCallBack.sendAnswer("D");
                 break;
         }
     }
@@ -138,5 +170,16 @@ public class AnswerFragment extends BaseFragment {
         }
 
     }
+
+    public void clearButton()
+    {
+        drawable = getResources().getDrawable(R.drawable.shape_normal);
+        chooseA.setBackground(drawable);
+        chooseB.setBackground(drawable);
+        chooseC.setBackground(drawable);
+        chooseD.setBackground(drawable);
+    }
+
+
 
 }

@@ -5,9 +5,12 @@
       <map>
         <entry key="..\:/MyApplication/app/src/main/res/drawable/btn_shape.xml" value="0.154" />
         <entry key="..\:/MyApplication/app/src/main/res/drawable/ic_launcher_background.xml" value="0.166" />
+        <entry key="..\:/MyApplication/app/src/main/res/drawable/shape_normal.xml" value="0.1705" />
+        <entry key="..\:/MyApplication/app/src/main/res/drawable/shape_pressed.xml" value="0.1705" />
         <entry key="..\:/MyApplication/app/src/main/res/layout/activity_answer.xml" value="0.2140625" />
         <entry key="..\:/MyApplication/app/src/main/res/layout/activity_base.xml" value="0.15833333333333333" />
         <entry key="..\:/MyApplication/app/src/main/res/layout/activity_field_choose.xml" value="0.2" />
+        <entry key="..\:/MyApplication/app/src/main/res/layout/activity_grade.xml" value="0.23802083333333332" />
         <entry key="..\:/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/MyApplication/app/src/main/res/layout/activity_room_add.xml" value="0.264" />
         <entry key="..\:/MyApplication/app/src/main/res/layout/activity_room_choose.xml" value="0.2" />

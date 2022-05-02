@@ -18,8 +18,8 @@ public class FieldChooseActivity extends BaseActivity {
     @OnClick({R.id.field_1,R.id.field_2,R.id.field_3,R.id.field_4,R.id.field_5,R.id.field_6,R.id.field_7,R.id.ret})
     public void onViewClicked(View view)
     {
-        Intent intent = new Intent(FieldChooseActivity.this, FieldChooseActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(FieldChooseActivity.this, FieldChooseActivity.class);
+        startActivity(intent);*/
         switch(view.getId())
         {
             case R.id.field_1:

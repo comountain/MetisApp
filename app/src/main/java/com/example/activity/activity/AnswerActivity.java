@@ -6,12 +6,16 @@ import android.view.View;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+
 
 import com.example.activity.R;
 import com.example.activity.bean.QuestBean;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.example.activity.service.FragmentCallBack;
 
-import android.app.ProgressDialog;
 
 import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
@@ -36,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AnswerActivity extends BaseActivity implements Chronometer.OnChronometerTickListener {
+public class AnswerActivity extends BaseActivity implements Chronometer.OnChronometerTickListener,FragmentCallBack {
     @BindView(R.id.vp_answer)
     ViewPager vp_answer;
 
@@ -44,11 +48,12 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
     Chronometer chronometer;
 
     private volatile ArrayList<Fragment> fragmentList;
-    private List<QuestBean> message;
-    private String type;
+    private volatile List<QuestBean> message;
+    private AlertDialog.Builder builder;
     private String field;
+    private String myanswer = "null";
+    private int myscore = 0;
     private int second = 20;
-    private int nowPage = 0;
     private int nowpager = 0;
 
     @Override
@@ -58,20 +63,20 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
     }
 
     @Override
-    void getPreIntent() {
-        field = getIntent().getStringExtra("field");
-    }
+    void getPreIntent() {field = getIntent().getExtras().get("field").toString().trim();}
+
 
     @Override
     void initView() {
+        setChronometer();
         initNet(field);
         vp_answer.setOnPageChangeListener(new MyOnPageChangeListener());
-        setChronometer();
-
     }
 
-
-
+    @Override
+    public void sendAnswer(String s){
+        myanswer = s;
+    }
 
 
     private void setChronometer() {
@@ -86,7 +91,7 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
      * @param chronometer
      */
     @Override
-    public void onChronometerTick(Chronometer chronometer) {
+     public void onChronometerTick(Chronometer chronometer) {
         second--;
         if (second == 0) {
 
@@ -190,7 +195,16 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
         switch (v.getId())
         {
             case R.id._btn_submit:
-                if(nowpager == fragmentList.size())
+                if(myanswer == "null")
+                {
+                    return;
+                }
+                if(myanswer.equals(message.get(nowpager).getAnswer()))
+                {
+                    myscore += 20;
+                }
+                myanswer = "null";
+                if(nowpager == fragmentList.size() - 1)
                     getGrade();
                 vp_answer.setCurrentItem(++nowpager);
             case R.id._btn_message:
@@ -216,7 +230,10 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
 
     public void getGrade()
     {
-
+        Intent intent1 = new Intent(AnswerActivity.this,GradeActivity.class);
+        intent1.putExtra("grade",myscore+"");
+        startActivity(intent1);
     }
+
 }
 
