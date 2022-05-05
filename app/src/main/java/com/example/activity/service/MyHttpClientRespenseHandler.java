@@ -2,14 +2,18 @@ package com.example.activity.service;
 import android.app.Activity;
 import android.util.Log;
 
-import com.loopj.android.http.TextHttpResponseHandler;
-
+import org.json.JSONArray;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class MyHttpClientRespenseHandler extends TextHttpResponseHandler {
-    private String TAG = "respensehandler";
+import java.util.ArrayList;
+import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
+
+public abstract class MyHttpClientRespenseHandler extends JsonHttpResponseHandler {
+    private String TAG = "respensehandler";
     private Activity context;
 
     public MyHttpClientRespenseHandler(Activity context) {
@@ -18,11 +22,14 @@ public abstract class MyHttpClientRespenseHandler extends TextHttpResponseHandle
 
 
     @Override
-    public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, String s) {
+    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
         Log.i(TAG, "请求成功");
         try {
-            JSONObject jsonObject = new JSONObject(s);
-            success(jsonObject);
+            super.onSuccess(statusCode, headers, response);
+            List<JSONObject> turnResponse = new ArrayList<>();
+            for(int i = 0; i < response.length(); i++)
+                turnResponse.add(response.getJSONObject(i));
+            success(statusCode, headers, turnResponse);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -35,6 +42,6 @@ public abstract class MyHttpClientRespenseHandler extends TextHttpResponseHandle
     }
 
 
-    public abstract  void success(JSONObject json);
-    public abstract  void faile();
+    public abstract void success(int statusCode, Header[] headers, List<JSONObject> turnResponse);
+    public abstract void faile();
 }

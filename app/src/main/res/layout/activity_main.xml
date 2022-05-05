@@ -4,17 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.MainActivity"
+    >
 
     <LinearLayout
-        android:layout_width="292dp"
-        android:layout_height="357dp"
+        android:layout_width="345dp"
+        android:layout_height="672dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="132dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/back_main"
+            tools:layout_editor_absoluteX="55dp"
+            tools:layout_editor_absoluteY="113dp" />
 
         <Button
             android:id="@+id/btn_start_answer"
@@ -27,5 +37,9 @@
             android:textColor="@color/black"
             android:textSize="25sp"
             android:visibility="visible" />
+
     </LinearLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,13 +6,15 @@ import android.view.View;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 
 
+import com.example.activity.MyApplication;
 import com.example.activity.R;
 import com.example.activity.bean.QuestBean;
+import com.example.activity.message.CompeteMessage;
+import com.example.activity.message.MatchMessage;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.example.activity.service.FragmentCallBack;
 
@@ -33,7 +35,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -49,12 +50,13 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
 
     private volatile ArrayList<Fragment> fragmentList;
     private volatile List<QuestBean> message;
-    private AlertDialog.Builder builder;
     private String field;
     private String myanswer = "null";
+    private String playernum;
     private int myscore = 0;
     private int second = 20;
     private int nowpager = 0;
+
 
     @Override
     int getLayoutId()
@@ -63,7 +65,11 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
     }
 
     @Override
-    void getPreIntent() {field = getIntent().getExtras().get("field").toString().trim();}
+    void getPreIntent()
+    {
+        playernum = ((MyApplication)getApplication()).getPlaytype();
+        field = getIntent().getExtras().get("field").toString().trim();
+    }
 
 
     @Override
@@ -146,8 +152,6 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
                                         obj.getString("field")
                                 ));
                                 fragmentList.add(new AnswerFragment(message.get(i)));
-                                /*Toast.makeText(AnswerActivity.this, "cgl", Toast.LENGTH_SHORT).show();
-                               Toast.makeText(AnswerActivity.this, message.get(0).getOptionD(), Toast.LENGTH_SHORT).show();*/
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -228,10 +232,20 @@ public class AnswerActivity extends BaseActivity implements Chronometer.OnChrono
         }
     }
 
-    public void getGrade()
-    {
+    public void getGrade() {
+        if (playernum.equals("match")) {
+            String username = ((MyApplication)getApplication()).getUsername();
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    ((MyApplication) getApplication()).sendMessage(new CompeteMessage(username, myscore));
+                }
+            };
+        thread.start();
+        }
         Intent intent1 = new Intent(AnswerActivity.this,GradeActivity.class);
         intent1.putExtra("grade",myscore+"");
+        intent1.putExtra("num",playernum);
         startActivity(intent1);
     }
 

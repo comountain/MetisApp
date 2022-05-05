@@ -20,12 +20,12 @@
 
         <TextView
             android:id="@+id/grade_title"
-            android:layout_width="600px"
+            android:layout_width="325dp"
             android:layout_height="200px"
             android:layout_gravity="center_horizontal"
             android:text="本次答题成绩为"
-            android:textSize="25sp"
-            android:textColor="@color/purple_700"/>
+            android:textColor="@color/purple_700"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/grade_grade"

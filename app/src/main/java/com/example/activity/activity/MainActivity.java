@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity {
         switch(view.getId())
         {
             case R.id.btn_start_answer:
-                Intent intent1 = new Intent(MainActivity.this, FieldChooseActivity.class);
+                Intent intent1 = new Intent(MainActivity.this, NumActivity.class);
                 startActivity(intent1);
                 break;
         }

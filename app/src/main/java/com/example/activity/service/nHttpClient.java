@@ -2,7 +2,7 @@ package com.example.activity.service;
 
 import android.content.Context;
 import android.os.Looper;
-
+import com.example.activity.constants.config;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -12,7 +12,7 @@ import com.loopj.android.http.SyncHttpClient;
 
 public class nHttpClient {
 
-    private static String BASE_URL = "localhost:8080";
+    private static String BASE_URL = config.HOST;
 
     private static AsyncHttpClient asyncHttpClient = new SyncHttpClient();
     private static AsyncHttpClient syncHttpClient = new AsyncHttpClient();
